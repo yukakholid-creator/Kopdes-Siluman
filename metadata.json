@@ -1,0 +1,6 @@
+{
+  "name": "Koperasi Desa Merah Putih Desa Siluman",
+  "description": "Microsite Resmi Koperasi Desa Merah Putih Desa Siluman, Kec. Pabuaran, Subang - Jawa Barat.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
