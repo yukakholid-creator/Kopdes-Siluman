@@ -15,10 +15,16 @@ import {
   Check,
 } from 'lucide-react';
 
-export const ArticlesSection: React.FC = () => {
+interface ArticlesSectionProps {
+  customArticles?: Article[];
+}
+
+export const ArticlesSection: React.FC<ArticlesSectionProps> = ({ customArticles }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('semua');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [copied, setCopied] = useState(false);
+
+  const articleList = customArticles || ARTICLES;
 
   const categories = [
     { id: 'semua', label: 'Semua Artikel' },
@@ -29,9 +35,9 @@ export const ArticlesSection: React.FC = () => {
   ];
 
   const filteredArticles = useMemo(() => {
-    if (selectedCategory === 'semua') return ARTICLES;
-    return ARTICLES.filter((art) => art.category === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === 'semua') return articleList;
+    return articleList.filter((art) => art.category === selectedCategory);
+  }, [selectedCategory, articleList]);
 
   const handleShare = (article: Article) => {
     if (navigator.share) {

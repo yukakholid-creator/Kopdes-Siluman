@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { PRODUCTS, ARTICLES } from './data/mockData';
+import { Product, Article } from './types';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -14,6 +16,8 @@ import { Footer } from './components/Footer';
 import { MemberRegistrationModal } from './components/MemberRegistrationModal';
 import { ArchitectureModal } from './components/ArchitectureModal';
 import { SeoTechModal } from './components/SeoTechModal';
+import { AdminLoginModal } from './components/AdminLoginModal';
+import { AdminDashboardModal } from './components/AdminDashboardModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { BackToTop } from './components/BackToTop';
 
@@ -29,6 +33,17 @@ export default function App() {
   const [archModalOpen, setArchModalOpen] = useState(false);
   const [seoModalOpen, setSeoModalOpen] = useState(false);
 
+  // Admin state & Modals
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(() => {
+    return localStorage.getItem('admin_logged_in') === 'true';
+  });
+  const [adminLoginModalOpen, setAdminLoginModalOpen] = useState(false);
+  const [adminDashboardModalOpen, setAdminDashboardModalOpen] = useState(false);
+
+  // Dynamic products and articles state
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [articles, setArticles] = useState<Article[]>(ARTICLES);
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -38,6 +53,18 @@ export default function App() {
       localStorage.setItem('theme', 'light');
     }
   }, [darkMode]);
+
+  const handleAdminLoginSuccess = () => {
+    setIsAdminLoggedIn(true);
+    localStorage.setItem('admin_logged_in', 'true');
+    setAdminDashboardModalOpen(true);
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdminLoggedIn(false);
+    localStorage.removeItem('admin_logged_in');
+    setAdminDashboardModalOpen(false);
+  };
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -57,6 +84,9 @@ export default function App() {
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         onOpenArchModal={() => setArchModalOpen(true)}
+        isAdminLoggedIn={isAdminLoggedIn}
+        onOpenAdminLoginModal={() => setAdminLoginModalOpen(true)}
+        onOpenAdminDashboardModal={() => setAdminDashboardModalOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -77,10 +107,10 @@ export default function App() {
         <PotensiSection />
 
         {/* Section 5: Produk Unggulan */}
-        <ProductCatalog />
+        <ProductCatalog customProducts={products} />
 
         {/* Section 6: Artikel & Berita */}
-        <ArticlesSection />
+        <ArticlesSection customArticles={articles} />
 
         {/* Section 7: Galeri Dokumentasi */}
         <GallerySection />
@@ -119,6 +149,22 @@ export default function App() {
       <SeoTechModal
         isOpen={seoModalOpen}
         onClose={() => setSeoModalOpen(false)}
+      />
+
+      <AdminLoginModal
+        isOpen={adminLoginModalOpen}
+        onClose={() => setAdminLoginModalOpen(false)}
+        onLoginSuccess={handleAdminLoginSuccess}
+      />
+
+      <AdminDashboardModal
+        isOpen={adminDashboardModalOpen}
+        onClose={() => setAdminDashboardModalOpen(false)}
+        onLogout={handleAdminLogout}
+        products={products}
+        setProducts={setProducts}
+        articles={articles}
+        setArticles={setArticles}
       />
 
       {/* Floating Widgets */}

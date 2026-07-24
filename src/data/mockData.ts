@@ -22,8 +22,8 @@ export const COOPERATIVE_DATA: CooperativeInfo = {
   regency: 'Subang',
   province: 'Jawa Barat',
   postalCode: '41251',
-  phone: '+62 821-2234-8900',
-  whatsapp: '6282122348900',
+  phone: '+62 852-2451-6254',
+  whatsapp: '6285224516254',
   email: 'koperasi.merahputih.siluman@gmail.com',
   mapEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.783688123!2d107.5912!3d-6.4251!2m3!1f00!2f00!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e693158ef630001%3A0x10293810293!2sDesa%20Siluman%2C%20Kec.%20Pabuaran%2C%20Kabupaten%20Subang%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid',
@@ -77,15 +77,9 @@ export const ORG_STRUCTURE: OrgMember[] = [
     period: '2023 - 2028',
   },
   {
-    role: 'Manajer Unit Usaha Mebel',
-    name: 'Asep Ridwan',
-    position: 'Kepala Divisi Mebel & Sofa',
-    period: '2023 - 2028',
-  },
-  {
-    role: 'Manajer Unit Pertanian',
-    name: 'Dadan Hamdani',
-    position: 'Kepala Divisi Pertanian & Pangan',
+    role: 'Manajer KDKMP',
+    name: 'Idham Kholid, M.Pd',
+    position: 'Manajer KDKMP Desa Siluman',
     period: '2023 - 2028',
   },
 ];

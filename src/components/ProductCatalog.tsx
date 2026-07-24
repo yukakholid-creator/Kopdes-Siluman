@@ -16,46 +16,52 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 
-export const ProductCatalog: React.FC = () => {
+interface ProductCatalogProps {
+  customProducts?: Product[];
+}
+
+export const ProductCatalog: React.FC<ProductCatalogProps> = ({ customProducts }) => {
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>('semua');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const productList = customProducts || PRODUCTS;
+
   const categories: { id: ProductCategory; label: string; count: number }[] = [
-    { id: 'semua', label: 'Semua Produk', count: PRODUCTS.length },
+    { id: 'semua', label: 'Semua Produk', count: productList.length },
     {
       id: 'furniture',
       label: 'A. Furniture & Mebel',
-      count: PRODUCTS.filter((p) => p.category === 'furniture').length,
+      count: productList.filter((p) => p.category === 'furniture').length,
     },
     {
       id: 'sofa',
       label: 'B. Sofa & Upholstery',
-      count: PRODUCTS.filter((p) => p.category === 'sofa').length,
+      count: productList.filter((p) => p.category === 'sofa').length,
     },
     {
       id: 'kusen',
       label: 'C. Kusen & Pintu',
-      count: PRODUCTS.filter((p) => p.category === 'kusen').length,
+      count: productList.filter((p) => p.category === 'kusen').length,
     },
     {
       id: 'pertanian',
       label: 'D. Pertanian & Beras',
-      count: PRODUCTS.filter((p) => p.category === 'pertanian').length,
+      count: productList.filter((p) => p.category === 'pertanian').length,
     },
   ];
 
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return productList.filter((p) => {
       const matchesCategory =
         selectedCategory === 'semua' || p.category === selectedCategory;
       const matchesSearch =
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.subcategory.toLowerCase().includes(searchQuery.toLowerCase());
+        (p.subcategory && p.subcategory.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, productList]);
 
   const handleWhatsAppOrder = (product: Product) => {
     const message = encodeURIComponent(

@@ -10,6 +10,8 @@ import {
   ChevronRight,
   Home,
   Sparkles,
+  ShieldCheck,
+  Lock,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -19,6 +21,9 @@ interface HeaderProps {
   activeSection: string;
   setActiveSection: (section: string) => void;
   onOpenArchModal: () => void;
+  isAdminLoggedIn?: boolean;
+  onOpenAdminLoginModal?: () => void;
+  onOpenAdminDashboardModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -28,6 +33,9 @@ export const Header: React.FC<HeaderProps> = ({
   activeSection,
   setActiveSection,
   onOpenArchModal,
+  isAdminLoggedIn = false,
+  onOpenAdminLoginModal,
+  onOpenAdminDashboardModal,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -129,6 +137,27 @@ export const Header: React.FC<HeaderProps> = ({
               {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
             </button>
 
+            {/* Admin Login / Dashboard Button */}
+            {isAdminLoggedIn ? (
+              <button
+                onClick={onOpenAdminDashboardModal}
+                className="hidden sm:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
+                title="Buka Dashboard Administrasi"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-200" />
+                <span>Dashboard Admin</span>
+              </button>
+            ) : (
+              <button
+                onClick={onOpenAdminLoginModal}
+                className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-colors"
+                title="Login Pengurus Koperasi"
+              >
+                <Lock className="w-4 h-4 text-red-500" />
+                <span className="hidden xl:inline">Login Admin</span>
+              </button>
+            )}
+
             {/* Register Member CTA Button */}
             <button
               onClick={onOpenRegisterModal}
@@ -198,6 +227,30 @@ export const Header: React.FC<HeaderProps> = ({
               <UserPlus className="w-4 h-4" />
               Daftar Menjadi Anggota Online
             </button>
+
+            {isAdminLoggedIn ? (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAdminDashboardModal && onOpenAdminDashboardModal();
+                }}
+                className="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl text-center text-sm flex items-center justify-center gap-2 shadow-md"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                Buka Dashboard Admin
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAdminLoginModal && onOpenAdminLoginModal();
+                }}
+                className="w-full py-3 bg-slate-800 text-slate-200 font-bold rounded-xl text-center text-sm flex items-center justify-center gap-2"
+              >
+                <Lock className="w-4 h-4 text-red-400" />
+                Login Admin Koperasi
+              </button>
+            )}
           </div>
         </div>
       )}
